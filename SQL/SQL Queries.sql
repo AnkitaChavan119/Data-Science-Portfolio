@@ -1,19 +1,11 @@
-/*
-SELECT emp.* , datediff(year, BirthDate, getdate()) as employee_age, datediff(year, hiredate, getdate() ) as employee_tenure
-  FROM [northwind"].[dbo"].[Employees"] emp
-  */
 
-  /*
-  having - done
-  string_agg - done
-  pivot - done
-  window function - done
-  first_value()
-  ntile()
-  dense_rank() - done
-  */
+---- 1. Get details of employees where Region is provided. If Region not available, get City as location
 
----- 1. Get a list of customers placing more than 5 orders every month
+select * from northwind.dbo.Employees where Region is not null
+
+select *, coalesce(Region, City) as location from northwind.dbo.Employees
+
+---- 2. Get a list of customers placing more than 5 orders every month
 
 select order_date_quarter_end,CustomerID, count(distinct OrderID) order_count
 from 
@@ -25,7 +17,7 @@ group by order_date_quarter_end, CustomerID
 having count(distinct OrderID) > 5
 
 
----- 2. Get top 3 highest selling products every quarter along with their selling price
+---- 3. Get top 3 highest selling products every quarter along with their selling price
 
 with cte1 
 as (
@@ -51,7 +43,7 @@ select *, dense_rank() over(partition by order_date_quarter_end order by order_c
 from cte2 ) c
 where product_rank <=3
 
----- 3. Get quarterly total number of orders for each employee
+---- 4. Get quarterly total number of orders for each employee
 
 with cte_orders as 
 (
@@ -76,7 +68,7 @@ from (
 )as pivot_table;
 
 
----- 4. Get a list of products ordered together in every order. One row per order
+---- 5. Get a list of products ordered together in every order. One row per order
 
 select distinct order_details.OrderID, 
 string_agg(products.ProductName,',') within group (order by order_details.quantity desc) as product_names
