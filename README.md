@@ -10,7 +10,7 @@ _Note: Data used in the projects is for demonstration purposes only._
 2. Connect to the target SQL Server
 3. Open below scripts in a new query window
     - instnwnd.sql : To install Northwind database used in the project
-    - SQL Queries : SQL queries for use cases on Northwind database
+    - SQL Queries.sql : SQL queries for use cases on Northwind database
 5. Run the scripts
 
 ### Run the scripts in SSDT or Visual Studio
